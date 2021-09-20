@@ -1,0 +1,115 @@
+module Mealy
+(
+	input clk, reset, a_in, 
+	output reg [1:0] b_out, 
+	reg [2:0] st
+);
+
+parameter [2:0] st0=3'b000,
+                st1=3'b001,
+                st2=3'b010, 
+                st3=3'b011, 
+                st4=3'b100,
+                st5=3'b101, 
+                st6=3'b110, 
+                st7=3'b111;
+
+always@(posedge clk or posedge reset or st)
+begin
+if(reset)
+    st=st0;
+else
+    case(st)
+    st0:
+        if(a_in==0) 
+        begin
+            st=st4;
+            b_out=2'b01;
+        end
+        else
+        begin
+            st=st2;
+            b_out=2'b01; 
+        end
+    st1:
+        if(a_in==0)
+        begin
+            st=st1;
+            b_out=2'b00;
+        end
+        else
+        begin
+            st=st1;
+            b_out=2'b00;      
+        end
+    st2:
+        if(a_in==0)
+        begin
+            st=st2;
+            b_out=2'b01;  
+        end
+        else
+        begin
+           st=st7;
+           b_out=2'b01;  
+        end
+    st3:
+        if(a_in==0)
+        begin
+           st=st3;
+           b_out=2'b01;  
+        end
+        else
+        begin
+           st=st2;
+           b_out=2'b01;  
+        end
+    st4:
+        if(a_in==0)
+        begin
+            st=st6;
+            b_out=2'b10;
+        end
+        else
+        begin
+            st=st1;
+            b_out=2'b00;
+        end
+    st5:
+        if(a_in==0)
+        begin
+            st=st7;
+            b_out=2'b01;
+        end
+        else
+        begin
+            st=st7;
+            b_out=2'b01;
+        end
+    st6:
+        if(a_in==0)
+        begin
+            st=st5;
+            b_out=2'b11;
+        end
+        else
+        begin
+            st=st5;
+            b_out=2'b11;
+        end
+    st7:
+        if(a_in==0)
+        begin
+            st=st5;
+            b_out=2'b11;
+        end
+        else
+        begin
+            st=st3;
+            b_out=2'b01;
+        end
+default st=st0;
+endcase
+end
+
+endmodule
